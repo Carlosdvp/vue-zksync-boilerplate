@@ -20,5 +20,7 @@ Goal: Learn how to deploy a smart contract to zkSync and build a dApp to interca
 2. Add the hardhat.config.ts file
 3. Create the /contracts and /deploy folders.
 4. Create the Greeter.sol contract
-5. 
+5. Compile the contract
+  > yarn hardhat compile
+6. 
 
