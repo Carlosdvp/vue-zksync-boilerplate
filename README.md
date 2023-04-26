@@ -33,3 +33,5 @@ Testnet Block explorer: https://goerli.explorer.zksync.io/
 
 ------------------------------------------------------------------------------------------------------
 
+# Build the Frontend
+
