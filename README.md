@@ -22,5 +22,14 @@ Goal: Learn how to deploy a smart contract to zkSync and build a dApp to interca
 4. Create the Greeter.sol contract
 5. Compile the contract
   > yarn hardhat compile
-6. 
+6. Add a deployment script
+7. Run the deployment script
+  > yarn hardhat deploy-zksync
+
+------------------------------------------------------------------------------------------------------
+
+Deployed to zkSync Era Testnet: 0x3b9B4CCf687477F08F16ce1C20792A47846fA54F
+Testnet Block explorer: https://goerli.explorer.zksync.io/
+
+------------------------------------------------------------------------------------------------------
 
