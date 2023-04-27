@@ -1,9 +1,12 @@
 <script lang="ts">
-// @ts-ignore
-const GREETER_CONTRACT_ADDRESS = "0x3b9B4CCf687477F08F16ce1C20792A47846fA54F"; 
-const GREETER_CONTRACT_ABI = []; // TODO: Complete and import the ABI
-const ETH_L1_ADDRESS = "0x0000000000000000000000000000000000000000";
+import {  } from "ethers"
+import { Provider, Web3Provider, Contract } from "zksync-web3"
 import allowedTokens from "./eth.json"
+import GREETER_CONTRACT_ABI from "./greeter-abi.json"
+
+const GREETER_CONTRACT_ADDRESS = "0x3b9B4CCf687477F08F16ce1C20792A47846fA54F"; 
+const ETH_L1_ADDRESS = "0x0000000000000000000000000000000000000000";
+const zksyncTestnet = "https://zksync2-testnet.zksync.dev";
 
 export default {
   name: "App",
@@ -32,12 +35,22 @@ export default {
   },
   methods: {
     initializeProviderAndSigner() {
-      // TODO: initialize provider and signer based on `window.ethereum`
+      //@ts-ignore
+      this.provider = new Provider(zksyncTestnet);
+      //@ts-ignore
+      this.signer = new Web3Provider(window.ethereum).getSigner();
+      //@ts-ignore
+      this.contract = new Contract(
+        GREETER_CONTRACT_ADDRESS,
+        GREETER_CONTRACT_ABI,
+        //@ts-ignore
+        this.signer
+      );
 
     },
     async getGreeting() {
-      // TODO: return the current greeting
-      return "";
+      //@ts-ignore
+      return await this.contract.greet();
     },
     async getFee() {
       // TOOD: return formatted fee
@@ -111,6 +124,7 @@ export default {
       //@ts-ignore
       this.provider
         .l2TokenAddress(l1Token.address)
+        //@ts-ignore
         .then((l2Address) => {
           //@ts-ignore
           this.selectedToken = {
@@ -122,6 +136,7 @@ export default {
           this.updateFee();
           this.updateBalance();
         })
+        //@ts-ignore
         .catch((error) => console.log(error))
         .finally(() => {
           this.retrievingFee = false;
@@ -145,14 +160,15 @@ export default {
       //@ts-ignore
       window.ethereum.request({ method: "eth_requestAccounts" })
         .then(() => {
-          if (+window.ethereum.networkVersion === 280) {
+          //@ts-ignore
+          if (window.ethereum.networkVersion == 280) {
             this.loadMainScreen();
           } else {
-            console.log("Please switch network to zaSync");
+            console.log("Please switch network to zaSync testnet");
           }
         })
         //@ts-ignore
-        .catch((error) => console.error(error));
+        .catch((error) => console.log(error));
     },
   },
 };
@@ -182,11 +198,11 @@ export default {
       <div class="balance" v-if="selectedToken">
         <p>
           Balance: <span v-if="retrievingBalance">Loading...</span>
-          <span v-else>{{ currentBalance }} {{ selectedToken.symbol }}</span>
+          <!-- <span v-else>{{ currentBalance }} {{ selectedToken.symbol }}</span> -->
         </p>
         <p>
           Expected fee: <span v-if="retrievingFee">Loading...</span>
-          <span v-else>{{ currentFee }} {{ selectedToken.symbol }}</span>
+          <!-- <span v-else>{{ currentFee }} {{ selectedToken.symbol }}</span> -->
           <button class="refresh-button" v-on:click="updateFee">Refresh</button>
         </p>
       </div>
